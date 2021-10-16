@@ -19,7 +19,7 @@ let entries = [];
 
 //Routes
 app.get("/", (req, res) => {
-    res.send("Hello World")
+    res.send("Hello Github")
 })
 
 app.listen(port, () => {
