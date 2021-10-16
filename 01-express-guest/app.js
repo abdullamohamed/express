@@ -15,13 +15,15 @@ app.use(express.urlencoded({extended: false}));
 
 
 //data
-let entries = [];
+let entries = ["Abdulla"];
+app.locals.entries = entries;
 
 //Routes
 app.get("/", (req, res) => {
-    res.send("Hello Github")
+    res.render("index")
 })
 
+//Server
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
