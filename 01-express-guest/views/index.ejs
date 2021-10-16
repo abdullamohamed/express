@@ -1,5 +1,20 @@
 <%- include('header'); -%>
 
-<p><%= entries %></p>
+<% if (entries.length) { %>
+    <% entries.forEach(entry => { %>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="text-muted pull-right">
+                    <%= entry.dob %>
+                </div>
+                <%= entry.title %>
+            </div>
+            <div class="panel-body">
+                <%= entry.body %>
+            </div>
+        </div>
+        <hr>
+    <% }) %>
+<% } %>
 
 <%- include('footer'); -%>

@@ -15,7 +15,10 @@ app.use(express.urlencoded({extended: false}));
 
 
 //data
-let entries = ["Abdulla"];
+let entries = [
+    {title:"Abdulla", body:"My name is Abdulla Mohamed", dob:"1985-02-01"},
+    {title:"Mohamed", body:"My name is Mohamed", dob:"1985-02-02"}
+];
 app.locals.entries = entries;
 
 //Routes
