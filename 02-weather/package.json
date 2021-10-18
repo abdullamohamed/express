@@ -1,0 +1,15 @@
+{
+  "name": "02-weather",
+  "version": "1.0.0",
+  "description": "A simple app to query a weather API",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "keywords": [],
+  "author": "a mohamed",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
