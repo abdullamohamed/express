@@ -8,8 +8,11 @@ app.set("views", "./views");
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-    //res.send("Weather Homepage");
-    res.render("index")
+    getWeather().then(data => {
+        //put the data in the locals variable so ejs can pick it up
+        app.locals.data = data;
+        res.render("index")
+    })
 })
 
 app.listen(3000, () => {
@@ -20,7 +23,8 @@ app.listen(3000, () => {
 const getWeather = async () => {
     try {
         //use Github API for dummy data to see JSON operation
-        const response = await fetch('https://api.github.com/users/github');
+        //const response = await fetch('https://api.github.com/users/github');
+        const response = await fetch('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=flw&lang=en');
         const data = await response.json();
         return data;
 
@@ -28,8 +32,3 @@ const getWeather = async () => {
         console.log(err)
     }
 }
-
-//extract some dummy data
-getWeather().then(data => {
-    console.log(data.name);
-})
