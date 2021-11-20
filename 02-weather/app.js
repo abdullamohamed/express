@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const fetch = require("node-fetch")
 
@@ -24,7 +25,8 @@ const getWeather = async () => {
     try {
         //use Github API for dummy data to see JSON operation
         //const response = await fetch('https://api.github.com/users/github');
-        const response = await fetch('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=flw&lang=en');
+        //const response = await fetch('https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=flw&lang=en');
+        const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=male&units=metric&appid=${process.env.API}`);
         const data = await response.json();
         return data;
 

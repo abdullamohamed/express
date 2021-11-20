@@ -9,8 +9,11 @@
 <body>
     <h1>Weather</h1>
     <div class="panel-body">
-        <!-- Display data -->
-        <%= data.forecastDesc %>
+        <!-- Display data <%= data.forecastDesc %> -->
+        <%= data.name %>
+        <%= data.main.temp %>
+        <%= data.weather[0].main %>
+        <img src="http://openweathermap.org/img/wn/<%= data.weather[0].icon %>@2x.png" alt="weather"> 
     </div>
 </body>
 </html>
