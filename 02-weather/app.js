@@ -8,11 +8,13 @@ const app = express();
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
+// Get weather data from openweathermap
 // Leverage promises from node-fetch
 let city = 'male';
 let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API}`;
 app.get("/", (req, res) => {
     fetch(url)
+    .then(checkStatus)
     .then(raw_data => raw_data.json())
     .then(json_data => {
         app.locals.data = json_data;
@@ -25,3 +27,11 @@ app.get("/", (req, res) => {
 app.listen(3000, () => {
     console.log("Weather App hearing on http://localhost:3000")
 })
+
+function checkStatus (res) {
+    if (res.ok) {
+        return res;
+    } else {
+        throw new Error(`There was an error : ${res.status} (${res.statusText})`); 
+    }
+}
