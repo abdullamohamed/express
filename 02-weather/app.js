@@ -10,7 +10,7 @@ app.set("view engine", "ejs");
 
 // Get weather data from openweathermap
 // Leverage promises from node-fetch
-let city = 'london';
+let city = 'male';
 let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API}`;
 app.get("/", (req, res, next) => {
     fetch(url)
@@ -30,6 +30,28 @@ app.get("/", (req, res, next) => {
         next(err);
     });
 })
+
+app.get("/weather", (req, res, next) => {
+    let city = req.query.city;
+    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.API}`;
+
+    if (!city) res.send({error: "You must enter a city in the search box"});
+
+    fetch(url) 
+    .then(checkStatus)
+    .then(raw_data => raw_data.json())
+    .then(json_data => {
+        app.locals.data = json_data;
+        //console.log(json_data);
+        // res.render("index")
+        res.send(json_data)
+    })
+    .catch(err => {
+        //console.log(err);
+        next(err);
+    });  
+})
+
 
 app.use((err, req, res, next) => {
     console.log(err);

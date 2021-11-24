@@ -11,41 +11,95 @@
 <body>
     <div class="min-h-screen flex items-center justify-center bg-gray-200">
         <div class="flex flex-col bg-white rounded p-4 w-full max-w-xs">
-                                <div class="font-bold text-xl">Weather in <%= data.name %></div>
+
+            <form class="w-full max-w-sm">
+                <div class="flex items-center border-b border-teal-500 py-2">
+                  <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Enter city name" aria-label="City name">
+                  <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded">
+                    Search
+                  </button>
+                </div>
+            </form>
+
+
+                                <div id="title" class="font-bold text-xl text-teal-700 pt-3">Weather in <%= data.name %></div>
                                 <div class="text-sm text-gray-500"><%= new Date().toDateString(); %></div>
                                 <div class="mt-6 text-6xl self-center inline-flex items-center justify-center rounded-lg text-indigo-400 h-24 w-24">
-                                    <!-- enter the cloud -->
                                     <img src="http://openweathermap.org/img/wn/<%= data.weather[0].icon %>@2x.png" alt="weather">
                                 </div>
                                 <div class="flex flex-row items-center justify-center mt-6">
-                                    <div class="font-medium text-6xl"><%= (data.main.temp).toFixed() %>°C</div>
+                                    <div id="maintemp" class="font-medium text-6xl"><%= (data.main.temp).toFixed() %>°C</div>
                                     <div class="flex flex-col items-center ml-6">
-                                        <div><%= data.weather[0].main %></div>
+                                        <div id="desc"><%= data.weather[0].main %></div>
                                         <div class="mt-1">
                                             <span class="text-sm"><i class="far fa-long-arrow-up"></i></span>
-                                            <span class="text-sm font-light text-gray-500"><%= (data.main.temp_max).toFixed() %>°C</span>
+                                            <span id="maxtemp" class="text-sm font-light text-gray-500"><%= (data.main.temp_max).toFixed() %>°C</span>
                                         </div>
                                         <div>
                                             <span class="text-sm"><i class="far fa-long-arrow-down"></i></span>
-                                            <span class="text-sm font-light text-gray-500"><%= data.main.temp_min.toFixed() %>°C</span>
+                                            <span id="mintemp" class="text-sm font-light text-gray-500"><%= data.main.temp_min.toFixed() %>°C</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex flex-row justify-between mt-6">
                                     <div class="flex flex-col items-center">
                                         <div class="font-medium text-sm">Wind</div>
-                                        <div class="text-sm text-gray-500"><%= data.wind.speed %>km/h</div>
+                                        <div id="wind" class="text-sm text-gray-500"><%= data.wind.speed %>km/h</div>
                                     </div>
                                     <div class="flex flex-col items-center">
                                         <div class="font-medium text-sm">Humidity</div>
-                                        <div class="text-sm text-gray-500"><%= data.main.humidity %></div>
+                                        <div id="humidity" class="text-sm text-gray-500"><%= data.main.humidity %></div>
                                     </div>
                                     <div class="flex flex-col items-center">
                                         <div class="font-medium text-sm">Visibility</div>
-                                        <div class="text-sm text-gray-500"><%= data.visibility %></div>
+                                        <div id="visibility" class="text-sm text-gray-500"><%= data.visibility %></div>
                                     </div>
                                 </div>
         </div>
     </div>
+    <script>
+        const wform = document.querySelector('form');
+        const search = document.querySelector('input');
+        const maintemp = document.querySelector("#maintemp");
+        const title = document.querySelector("#title");
+        const wimg = document.querySelector('img');
+        const desc = document.querySelector('#desc');
+        const maxtemp = document.querySelector('#maxtemp');
+        const wind = document.querySelector('#wind');
+        const mintemp = document.querySelector('#mintemp');
+        const humidity = document.querySelector('#humidity');
+        const visibility = document.querySelector('#visibility');
+
+        wform.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            let url = "/weather?city=" + search.value;
+            
+            const data="test";
+            const options = {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            };
+
+            const db_response = await fetch(url, options);
+            const db_json = await db_response.json();
+            // console.log(db_json);
+            // console.log(db_json.weather[0].main, db_json.main.temp);
+            
+            maintemp.textContent = db_json.main.temp.toFixed() + "°C";
+            title.textContent = 'Weather in ' + db_json.name;
+            desc.textContent = db_json.weather[0].main;
+            mintemp.textContent = db_json.main.temp_min.toFixed() + "°C";
+            maxtemp.textContent = db_json.main.temp_max.toFixed() + "°C";
+            wind.textContent = db_json.wind.speed + " km/h";
+            humidity.textContent = db_json.main.humidity;
+            visibility.textContent = db_json.visibility;
+            wimg.src = "http://openweathermap.org/img/wn/" + db_json.weather[0].icon + "@2x.png";
+
+            search.value = "";
+        })
+    </script>
 </body>
 </html>
