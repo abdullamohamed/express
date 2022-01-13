@@ -44,7 +44,10 @@ app.get("/weather", (req, res, next) => {
         app.locals.data = json_data;
         //console.log(json_data);
         // res.render("index")
-        res.send(json_data)
+        // if res.send is used then the fend fetch has to be modified with
+        // options such as GET and header
+        res.json(json_data);
+
     })
     .catch(err => {
         //console.log(err);
