@@ -1,9 +1,11 @@
 {
   "name": "03-lam",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon ./bin/www",
+    "devstart": "nodemon ./bin/www",
+    "serverstart": "SET DEBUG=03-lam:* & npm run devstart"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -14,3 +16,4 @@
     "morgan": "~1.9.1"
   }
 }
+
